@@ -25,6 +25,7 @@ docker-compose up
 - Rename `env.sample` file to `.env`, fill the variables and save.
 - `DEFAULT_DATABASE_URI` Takes the default mongodb connection string.
 - `PORT` Takes the port in which we want the app to run on, defaults to 4000 if not set.
+if you need sample set, please import `init.json` into the videos collection
 
 Run
 ```
@@ -38,6 +39,8 @@ $ npm start
 - Rename `env.sample` file to `.env`, fill the variables and save.
 - `DEFAULT_DATABASE_URI` Takes the default mongodb connection string.
 - `PORT` Takes the port in which we want the app to run on, defaults to 4000 if not set.
+
+if you need sample set, please import `init.json` into the videos c
 
 Run the following
 ```
