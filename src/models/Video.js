@@ -17,5 +17,15 @@ schema.index({
 }, {
   background: true,
 });
+schema.index({
+  isPrivate: 1,
+}, {
+  background: true,
+});
+schema.index({
+  timesViewed: 1,
+}, {
+  background: true,
+});
 
 module.exports = model(collectionName, schema);
