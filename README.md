@@ -44,8 +44,8 @@ if you need sample set, please import `init.json` into the videos c
 
 Run the following
 ```
-1. Build the docker image - $ docker build -t getir-challenge .
-2. Run the docker image - $ docker run -d -p 80:${PORT} getir-challenge
+1. Build the docker image - $ docker build -t simple-video-api .
+2. Run the docker image - $ docker run -d -p 80:${PORT} simple-video-api
 
 ```
 
