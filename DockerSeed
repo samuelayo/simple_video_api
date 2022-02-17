@@ -1,0 +1,4 @@
+FROM mongo:4.2.8
+
+COPY init.json /init.json
+CMD mongoimport --host db --db tldv --collection videos --type json --file /init.json --jsonArray

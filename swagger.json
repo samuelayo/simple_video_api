@@ -1,0 +1,443 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple Video API",
+        "description": "Simple Video API",
+        "version": "1.0.0",
+        "contact": {
+            "email": "hi@samuel.com.ng"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4000"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "video": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "legend of the seeker"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://legendoftheseekerthemovie.com/1080.mp4"
+                    },
+                    "thumbnailUrl": {
+                        "type": "string",
+                        "example": "https://legendoftheseekerthemovie.com/1080.jpg"
+                    },
+                    "isPrivate": {
+                        "type": "boolesn",
+                        "example": false
+                    },
+                    "timesViewed": {
+                        "type": "number",
+                        "example": 4500
+                    }
+                }
+            },
+            "videoId": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "09798278398sdhsdfsfsf"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/healthCheck": {
+            "get": {
+                "description": "Health check to see if service is up",
+                "operationId": "healthCheck",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Service is up and running"
+                    }
+                }
+            }
+        },
+        "/video/new": {
+            "post": {
+                "description": "Allows user to create a new video resource",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/video",
+                                "required": [
+                                    "name",
+                                    "url",
+                                    "thumbnailUrl",
+                                    "isPrivate",
+                                    "timesViewed"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/video"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/videoId"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "unsuccessful"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 422
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "\"timesViewed\" is required"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/video/{id}": {
+            "get": {
+                "descriptio": "Get a video by ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string",
+                            "example": "dhsdjdkajd4242424a"
+                        },
+                        "required": true,
+                        "description": "unique identification of the video"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/video"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/videoId"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "unsuccessful"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 400
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "invalid request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete a video by it's id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string",
+                            "example": "dhsdjdkajd4242424a"
+                        },
+                        "required": true,
+                        "description": "unique identification of the video"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "unsuccessful"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 400
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "invalid request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update a video by it's id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string",
+                            "example": "dhsdjdkajd4242424a"
+                        },
+                        "required": true,
+                        "description": "unique identification of the video"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/video"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/video"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/videoId"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "unsuccessful"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 400
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "invalid request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }, 
+        "/video/all": {
+            "get": {
+                "descriptio": "Get all videos, with ability to filter by timesviewed over 42 or public ",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "above42",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        },
+                        "required": false,
+                        "description": "return only videos with more than 42 viewsd"
+                    },
+                    {
+                        "in": "query",
+                        "name": "publicOnly",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        },
+                        "required": false,
+                        "description": "return only videos that are public"
+                    }, 
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "number",
+                            "example": 1
+                        },
+                        "required": false,
+                        "description": "current page of the data we are fetching for"
+                    }
+                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": { 
+                                            "type": "object",
+                                            "example": {
+                                            "totalCount": 1200, 
+                                            "page": 1,
+                                            "items":[{
+                                                "name": "legend of the seeker",
+                                                "url": "https://legendoftheseekerthemovie.com/1080.mp4",
+                                                "thumbnailUrl": "https://legendoftheseekerthemovie.com/1080.jpg",
+                                                "isPrivate": false,
+                                                "timesViewed": 4500,
+                                                "_id": "09798278398sdhsdfsfsf"
+                                              }],
+                                            "itemPerPage": 50,
+                                            "hasPreviousPage": false,
+                                            "hasNextPage": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "unsuccessful"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "example": 400
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "invalid request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

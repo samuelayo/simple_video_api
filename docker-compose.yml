@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: DockerFile
+      # Uncomment this line in case you are having network issues to install dependencies
+      # args:
+      #   YARN_TIMEOUT: '200000'
+    container_name: tldv
+    image: tldv
+    # Uncomment this line in case you are in M1
+    # platform: linux/amd64
+    ports:
+      - '4000:4000'
+    networks:
+      - 'app-network'
+    depends_on:
+      - db
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - DEFAULT_DATABASE_URI=mongodb://db:27017/tldv
+      - TZ=America/New_York
+
+  db:
+    image: mongo:4.2.8
+    restart: unless-stopped
+    volumes:
+      - mongodb-data:/data/tldv
+    ports:
+      - '27017:27017'
+    networks:
+      - 'app-network'
+
+  mongo-seed:
+    build: 
+      context: .
+      dockerfile: DockerSeed
+    container_name: mongo-seeder
+    networks:
+      - 'app-network'
+    depends_on:
+      - db
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:
